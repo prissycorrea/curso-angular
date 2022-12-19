@@ -8,17 +8,13 @@ import { Animal } from 'src/app/Animals';
   styleUrls: ['./list-render.component.css']
 })
 export class ListRenderComponent {
-  animals: Animal[] = [
-    {name: "Logan", type: "Bunny", age: 3},
-    {name: "Eevee", type: "Bunny", age: 1},
-    {name: "Potter", type: "Cat", age: 2},
-    {name: "Kira", type: "Cat", age: 1},
-    {name: "Misa", type: "Cat", age: 1}
-  ]
+  animals: Animal[] = [] //agora inicio com array vazio, pois os dados serão carregados da api
 
   animalDetails = ''
 
-  constructor(private listService: ListService) {}
+  constructor(private listService: ListService) {
+    this.getAnimals();
+  }
 
   showAge(animal: Animal): void {
     this.animalDetails = `O pet ${animal.name} tem ${animal.age} anos.`
@@ -28,4 +24,8 @@ export class ListRenderComponent {
     console.log("Removendo animal...")
     this.animals = this.listService.remove(this.animals, animal)
   }
+
+  getAnimals(): void {
+    this.listService.getAll().subscribe((myAnimals) => (this.animals = myAnimals));
+  } //acessa o services
 }
